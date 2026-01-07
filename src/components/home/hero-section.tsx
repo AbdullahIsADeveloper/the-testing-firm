@@ -3,7 +3,7 @@ import { GridPattern } from "../ui/grid-pattern";
 
 export default function HeroSection() {
   return (
-    <section className="relative px-6 pt-38 pb-16 overflow-hidden">
+    <section className="relative px-6 pt-20 md:pt-28 lg:pt-36 pb-16 overflow-hidden">
       <GridPattern
         width={50}
         height={50}
@@ -19,7 +19,7 @@ export default function HeroSection() {
         className="absolute inset-0 h-full w-full mask-[linear-gradient(to_bottom,white,transparent,transparent)]"
       />
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6 py-8">
+      <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6 py-8 px-4">
         <div className="flex justify-center">
           <a
             href="#about"
@@ -44,12 +44,12 @@ export default function HeroSection() {
             </svg>
           </a>
         </div>
-        <h1 className="text-4xl sm:text-5xl lg:text-7xl mt-6">
+        <h1 className="text-4xl sm:text-5xl lg:text-7xl mt-6 pb-2">
           <div className="text-foreground">Maximum talent.</div>
           <div className="text-primary">Zero hassle.</div>
         </h1>
 
-        <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+        <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed mx-auto">
           The Testing Firm is the premier QA recruiting platform. Connect with
           elite testing professionals or find your next opportunity with
           companies that value quality. Get recruiting services from a variety
