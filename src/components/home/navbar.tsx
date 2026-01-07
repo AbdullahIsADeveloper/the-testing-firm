@@ -7,8 +7,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav className="fixed lg:top-8 top-6 left-1/2 transform -translate-x-1/2 z-50 bg-background/70 backdrop-blur-md border border-border rounded-xl max-w-7xl w-[90%] transition-all duration-300">
+      <div className="px-6 py-2 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Logo />
@@ -22,7 +22,7 @@ export default function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:text-foreground"
+          className="md:hidden inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-background/30 transition"
           aria-label="Toggle menu"
         >
           <svg
@@ -43,7 +43,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-sm">
+        <div className="md:hidden border-t border-border bg-background/90 backdrop-blur-md rounded-b-xl shadow-inner">
           <div className="flex flex-col gap-4 px-6 py-6">
             <NavLinks onClick={() => setOpen(false)} />
           </div>

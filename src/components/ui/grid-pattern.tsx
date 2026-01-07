@@ -30,7 +30,7 @@ export function GridPattern({
     <svg
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30",
+        "pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-500/80",
         className
       )}
       {...(props as any)}
@@ -47,13 +47,22 @@ export function GridPattern({
           <path
             d={`M.5 ${height}V.5H${width}`}
             fill="none"
-            strokeDasharray={strokeDasharray}
-          />
+            strokeDasharray="4 6"
+            strokeWidth="1.25"
+          >
+            <animate
+              attributeName="stroke-dashoffset"
+              from="0"
+              to="40"
+              dur="3s"
+              repeatCount="indefinite"
+            />
+          </path>
         </pattern>
       </defs>
       <rect width="100%" height="100%" strokeWidth={0} fill={`url(#${id})`} />
       {squares && (
-        <svg x={x} y={y} className="overflow-visible">
+        <svg x={x} y={y} className="overflow-visible opacity-70">
           {squares.map(([x, y], index) => (
             <rect
               strokeWidth="0"

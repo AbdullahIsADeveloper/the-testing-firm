@@ -3,7 +3,7 @@ import { GridPattern } from "../ui/grid-pattern";
 
 export default function HeroSection() {
   return (
-    <section className="relative px-6 pt-20 md:pt-28 lg:pt-36 pb-16 overflow-hidden">
+    <section className="relative px-6 pt-20 lg:pt-32 xl:pt-36 pb-16 overflow-hidden">
       <GridPattern
         width={50}
         height={50}
