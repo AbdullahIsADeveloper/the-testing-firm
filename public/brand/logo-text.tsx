@@ -1,14 +1,14 @@
-import { Nunito_Sans } from "next/font/google";
+import { Baloo_2 } from "next/font/google";
 
-const nunitoSans = Nunito_Sans({ subsets: ["latin"] });
+const baloo2 = Baloo_2({ subsets: ["latin"] });
 
 export default function LogoText({ className = "" }: { className?: string }) {
   return (
     <span
       className={`
-        ${nunitoSans.className}
+        ${baloo2.className}
         inline-flex items-center
-        text-xl font-bold tracking-tight
+        text-xl font-medium tracking-tight
         leading-none
         ${className}
       `}
