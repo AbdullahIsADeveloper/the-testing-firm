@@ -3,10 +3,10 @@ import { GridPattern } from "../ui/grid-pattern";
 
 export default function HeroSection() {
   return (
-    <section className="relative px-6 pt-20 lg:pt-32 xl:pt-36 pb-16 overflow-hidden">
+    <section className="relative px-6 pt-14 xl:pt-16 pb-16 overflow-hidden">
       <GridPattern
-        width={50}
-        height={50}
+        width={40}
+        height={40}
         x={0}
         y={0}
         squares={[
@@ -16,10 +16,10 @@ export default function HeroSection() {
           [5, 3],
           [5, 5],
         ]}
-        className="absolute inset-0 h-full w-full mask-[linear-gradient(to_bottom,white,transparent,transparent)]"
+        className="absolute h-full w-full mask-[linear-gradient(to_bottom,white,transparent,transparent)]"
       />
 
-      <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6 py-8 px-4">
+      <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6 py-8 px-2">
         <div className="flex justify-center">
           <a
             href="#about"
@@ -44,7 +44,7 @@ export default function HeroSection() {
             </svg>
           </a>
         </div>
-        <h1 className="text-4xl sm:text-5xl lg:text-7xl mt-6 pb-2">
+        <h1 className="text-4xl sm:text-5xl lg:text-7xl mt-6 pb-1">
           <div className="text-foreground">Maximum talent.</div>
           <div className="text-primary">Zero hassle.</div>
         </h1>
@@ -56,7 +56,7 @@ export default function HeroSection() {
           of testing fields.
         </p>
 
-        <div className="flex flex-row flex-nowrap gap-2 justify-center items-center pt-2">
+        <div className="flex flex-row flex-nowrap gap-2 justify-center items-center pt-1">
           <Button
             size="lg"
             variant="outline"

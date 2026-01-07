@@ -1,13 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Logo from "@/public/brand/logo";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+
+  useEffect(() => {
+    const sections = ["home", "how-it-works", "about", "contact"];
+
+    function onScroll() {
+      const scrollPos = window.scrollY + window.innerHeight / 3;
+
+      for (const section of sections) {
+        const elem = document.getElementById(section);
+        if (elem) {
+          const offsetTop = elem.offsetTop;
+          const offsetBottom = offsetTop + elem.offsetHeight;
+          if (scrollPos >= offsetTop && scrollPos < offsetBottom) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    }
+
+    window.addEventListener("scroll", onScroll);
+    onScroll(); // Initialize active section on load
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  function handleClick(section: string) {
+    setOpen(false);
+    const elem = document.getElementById(section);
+    if (elem) {
+      elem.scrollIntoView({ behavior: "smooth" });
+    }
+  }
 
   return (
-    <nav className="fixed lg:top-8 top-6 left-1/2 transform -translate-x-1/2 z-50 bg-background/70 backdrop-blur-md border border-border rounded-xl max-w-7xl w-[90%] transition-all duration-300">
+    <nav className="fixed top-4 left-0 right-0 z-50 bg-background/70 backdrop-blur-xs border border-border rounded-xl max-w-7xl mx-auto w-[90%] transition-all duration-300">
       <div className="px-6 py-2 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -15,8 +51,8 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
-          <NavLinks />
+        <div className="hidden md:flex items-center gap-2">
+          <NavLinks activeSection={activeSection} onClick={handleClick} />
         </div>
 
         {/* Mobile Menu Button */}
@@ -33,9 +69,17 @@ export default function Navbar() {
             viewBox="0 0 24 24"
           >
             {open ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             )}
           </svg>
         </button>
@@ -43,9 +87,15 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden border-t border-border bg-background/90 backdrop-blur-md rounded-b-xl shadow-inner">
-          <div className="flex flex-col gap-4 px-6 py-6">
-            <NavLinks onClick={() => setOpen(false)} />
+        <div className="md:hidden border-t border-border bg-background/90 backdrop-blur-lg rounded-b-xl shadow-inner">
+          <div className="flex flex-col gap-2 px-6 py-6">
+            <NavLinks
+              activeSection={activeSection}
+              onClick={(section) => {
+                handleClick(section);
+                setOpen(false);
+              }}
+            />
           </div>
         </div>
       )}
@@ -53,30 +103,40 @@ export default function Navbar() {
   );
 }
 
-function NavLinks({ onClick }: { onClick?: () => void }) {
+function NavLinks({
+  activeSection,
+  onClick,
+}: {
+  activeSection?: string;
+  onClick?: (section: string) => void;
+}) {
+  const links = [
+    { id: "home", label: "Home" },
+    { id: "why-us", label: "Why us" },
+    { id: "how-it-works", label: "How it works" },
+    { id: "about", label: "About us" },
+    { id: "contact", label: "Contact" },
+  ];
+
   return (
     <>
-      <a
-        href="#how-it-works"
-        onClick={onClick}
-        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-      >
-        How it works
-      </a>
-      <a
-        href="#about"
-        onClick={onClick}
-        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-      >
-        About us
-      </a>
-      <a
-        href="#contact"
-        onClick={onClick}
-        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-      >
-        Contact
-      </a>
+      {links.map(({ id, label }) => (
+        <a
+          key={id}
+          href={`#${id}`}
+          onClick={(e) => {
+            e.preventDefault();
+            if (onClick) onClick(id);
+          }}
+          className={`text-sm transition-colors rounded-xl px-3 py-[2px] ${
+            activeSection === id
+              ? "text-foreground font-semibold border-foreground bg-accent"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          {label}
+        </a>
+      ))}
     </>
   );
 }
