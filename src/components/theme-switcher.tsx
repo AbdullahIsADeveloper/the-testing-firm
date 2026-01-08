@@ -2,28 +2,38 @@
 
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
+import { SunIcon, MoonIcon, ComputerDesktopIcon } from "@heroicons/react/24/solid"
 
 export default function ThemeSwitcher() {
   const { theme, setTheme, systemTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
 
-  const currentTheme = theme === "system" ? systemTheme : theme
+  const displayTheme = theme === "system" ? systemTheme : theme
+
+  // cycles: light -> dark -> system -> light -> ...
+  const handleToggle = () => {
+    if (theme === "light") setTheme("dark")
+    else if (theme === "dark") setTheme("system")
+    else setTheme("light")
+  }
 
   return (
-    <select
-      value={currentTheme}
-      onChange={e => setTheme(e.target.value)}
-      className="p-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+    <button
+      aria-label="Toggle theme"
+      onClick={handleToggle}
+      className="rounded-full hover:bg-accent/20 transition-all duration-150"
     >
-      <option value="light">Light</option>
-      <option value="dark">Dark</option>
-      <option value="system">System</option>
-    </select>
+      {theme === "system" ? (
+        <ComputerDesktopIcon className="w-5 h-5" />
+      ) : displayTheme === "dark" ? (
+        <MoonIcon className="w-5 h-5" />
+      ) : (
+        <SunIcon className="w-5 h-5" />
+      )}
+    </button>
   )
 }

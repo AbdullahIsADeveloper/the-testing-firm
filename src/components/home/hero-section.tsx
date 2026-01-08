@@ -58,8 +58,7 @@ export default function HeroSection() {
 
         <div className="flex flex-row flex-nowrap gap-2 justify-center items-center pt-1">
           <Button
-            variant="outline"
-            className="whitespace-nowrap rounded-md border-green-500 bg-primary px-4 sm:px-6 font-normal hover:border-green-600 hover:bg-emerald-400 cursor-pointer"
+            className="whitespace-nowrap rounded-md border-emerald-500 dark:border-emerald-700 border bg-primary px-4 sm:px-6 font-normal hover:border-emerald-600 dark:hover:bg-emerald-700 hover:bg-emerald-400 cursor-pointer"
           >
             Get started
           </Button>

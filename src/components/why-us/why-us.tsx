@@ -9,6 +9,7 @@ import {
   IconSignature,
   IconTableColumn,
 } from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
 
 export default function WhyUs() {
   return (
@@ -33,7 +34,10 @@ export default function WhyUs() {
             description={item.description}
             header={item.header}
             icon={item.icon}
-            className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+            className={cn(
+              i === 3 || i === 6 ? "md:col-span-2" : "",
+              "dark:bg-accent/20"
+            )}
           />
         ))}
       </BentoGrid>

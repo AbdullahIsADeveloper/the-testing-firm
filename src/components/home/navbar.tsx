@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Logo from "@/public/brand/logo";
 import { useTheme } from "next-themes";
+import ThemeSwitcher from "../theme-switcher";
 
 const SECTIONS = ["home", "why-us", "how-it-works", "about", "contact"];
 
@@ -163,27 +164,5 @@ function NavLinks({
         </a>
       ))}
     </div>
-  );
-}
-
-function ThemeSwitcher() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) return null;
-
-  return (
-    <select
-      value={theme}
-      onChange={(e) => setTheme(e.target.value)}
-      className="rounded-md border border-border bg-background px-3 py-1 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition"
-      aria-label="Select theme"
-    >
-      <option value="light">Light</option>
-      <option value="dark">Dark</option>
-      <option value="system">System</option>
-    </select>
   );
 }
