@@ -3,7 +3,7 @@ import { GridPattern } from "../ui/grid-pattern";
 
 export default function HeroSection() {
   return (
-    <section className="relative px-6 pt-14 xl:pt-16 pb-16 overflow-hidden">
+    <section id="home" className="relative px-8 pt-20 xl:pt-34 pb-16 overflow-hidden">
       <GridPattern
         width={40}
         height={40}
@@ -58,7 +58,6 @@ export default function HeroSection() {
 
         <div className="flex flex-row flex-nowrap gap-2 justify-center items-center pt-1">
           <Button
-            size="lg"
             variant="outline"
             className="whitespace-nowrap rounded-md border-green-500 bg-primary px-4 sm:px-6 font-normal hover:border-green-600 hover:bg-emerald-400 cursor-pointer"
           >
@@ -66,7 +65,6 @@ export default function HeroSection() {
           </Button>
 
           <Button
-            size="lg"
             variant="outline"
             className="whitespace-nowrap rounded-md border-gray-300 bg-transparent px-4 sm:px-6 font-normal hover:border-gray-400 hover:bg-gray-100 cursor-pointer"
           >

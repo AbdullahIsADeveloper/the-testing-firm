@@ -1,64 +1,55 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Logo from "@/public/brand/logo";
+import { useTheme } from "next-themes";
+
+const SECTIONS = ["home", "why-us", "how-it-works", "about", "contact"];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
-    const sections = ["home", "how-it-works", "about", "contact"];
-
     function onScroll() {
-      const scrollPos = window.scrollY + window.innerHeight / 3;
-
-      for (const section of sections) {
+      const scrollPos = window.scrollY + 120;
+      for (const section of SECTIONS) {
         const elem = document.getElementById(section);
-        if (elem) {
-          const offsetTop = elem.offsetTop;
-          const offsetBottom = offsetTop + elem.offsetHeight;
-          if (scrollPos >= offsetTop && scrollPos < offsetBottom) {
-            setActiveSection(section);
-            break;
-          }
+        if (!elem) continue;
+        const top = elem.offsetTop;
+        const bottom = top + elem.offsetHeight;
+        if (scrollPos >= top && scrollPos < bottom) {
+          setActiveSection(section);
+          break;
         }
       }
     }
-
-    window.addEventListener("scroll", onScroll);
-    onScroll(); // Initialize active section on load
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   function handleClick(section: string) {
     setOpen(false);
     const elem = document.getElementById(section);
-    if (elem) {
-      elem.scrollIntoView({ behavior: "smooth" });
-    }
+    elem?.scrollIntoView({ behavior: "smooth" });
   }
 
   return (
-    <nav className="fixed top-4 left-0 right-0 z-50 bg-background/70 backdrop-blur-xs border border-border rounded-xl max-w-7xl mx-auto w-[90%] transition-all duration-300">
-      <div className="px-6 py-2 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <Logo />
-        </div>
+    <nav className="fixed top-4 left-0 right-0 z-50 mx-auto w-[90%] max-w-7xl rounded-xl border border-border bg-background/70 backdrop-blur-md transition-all">
+      <div className="flex items-center justify-between px-6 py-2">
+        <Logo />
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-2">
+        {/* Desktop nav + theme switcher */}
+        <div className="hidden md:flex items-center space-x-6">
           <NavLinks activeSection={activeSection} onClick={handleClick} />
+          <ThemeSwitcher />
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-background/30 transition"
+          className="md:hidden rounded-md p-1 text-muted-foreground hover:text-foreground"
           aria-label="Toggle menu"
         >
           <svg
@@ -85,17 +76,19 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-t border-border bg-background/90 backdrop-blur-lg rounded-b-xl shadow-inner">
-          <div className="flex flex-col gap-2 px-6 py-6">
+        <div className="md:hidden border-t border-border bg-background/90 backdrop-blur-lg">
+          <div className="px-6 py-6 flex flex-col gap-6">
             <NavLinks
               activeSection={activeSection}
-              onClick={(section) => {
-                handleClick(section);
+              onClick={(id) => {
+                handleClick(id);
                 setOpen(false);
               }}
+              vertical
             />
+            <ThemeSwitcher />
           </div>
         </div>
       )}
@@ -106,9 +99,11 @@ export default function Navbar() {
 function NavLinks({
   activeSection,
   onClick,
+  vertical = false,
 }: {
-  activeSection?: string;
-  onClick?: (section: string) => void;
+  activeSection: string;
+  onClick: (id: string) => void;
+  vertical?: boolean;
 }) {
   const links = [
     { id: "home", label: "Home" },
@@ -118,25 +113,77 @@ function NavLinks({
     { id: "contact", label: "Contact" },
   ];
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+
+  useEffect(() => {
+    if (vertical) return;
+    const activeEl = containerRef.current?.querySelector(
+      `[data-id="${activeSection}"]`
+    ) as HTMLElement | null;
+    if (activeEl) {
+      setIndicator({
+        left: activeEl.offsetLeft,
+        width: activeEl.offsetWidth,
+      });
+    }
+  }, [activeSection, vertical]);
+
   return (
-    <>
+    <div
+      ref={containerRef}
+      className={`relative ${vertical ? "flex flex-col gap-2" : "flex gap-2"}`}
+    >
+      {!vertical && (
+        <span
+          className="absolute inset-y-0 rounded-md bg-accent transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          style={{
+            left: indicator.left,
+            width: indicator.width,
+          }}
+        />
+      )}
+
       {links.map(({ id, label }) => (
         <a
           key={id}
+          data-id={id}
           href={`#${id}`}
           onClick={(e) => {
             e.preventDefault();
-            if (onClick) onClick(id);
+            onClick(id);
           }}
-          className={`text-sm transition-colors rounded-xl px-3 py-[2px] ${
+          className={`relative z-10 rounded-md px-3 py-[2px] text-sm transition-colors hover:bg-accent ${
             activeSection === id
-              ? "text-foreground font-semibold border-foreground bg-accent"
-              : "text-muted-foreground hover:text-foreground"
+              ? "text-foreground font-semibold"
+              : "text-muted-foreground"
           }`}
         >
           {label}
         </a>
       ))}
-    </>
+    </div>
+  );
+}
+
+function ThemeSwitcher() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
+
+  return (
+    <select
+      value={theme}
+      onChange={(e) => setTheme(e.target.value)}
+      className="rounded-md border border-border bg-background px-3 py-1 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition"
+      aria-label="Select theme"
+    >
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+      <option value="system">System</option>
+    </select>
   );
 }
