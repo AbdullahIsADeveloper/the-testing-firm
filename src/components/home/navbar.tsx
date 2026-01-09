@@ -42,7 +42,7 @@ export default function Navbar() {
         <Logo />
 
         {/* Desktop nav + theme switcher */}
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden md:flex items-center space-x-">
           <NavLinks activeSection={activeSection} onClick={handleClick} />
           <ThemeSwitcher />
         </div>
@@ -50,7 +50,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden rounded-md p-1 text-muted-foreground hover:text-foreground"
+          className="md:hidden rounded-md px-1 text-muted-foreground hover:text-foreground"
           aria-label="Toggle menu"
         >
           <svg

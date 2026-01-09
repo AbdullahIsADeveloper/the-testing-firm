@@ -10,6 +10,7 @@ import {
   IconTableColumn,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
+import { Marquee } from "../ui/marquee";
 
 export default function WhyUs() {
   return (
@@ -46,12 +47,12 @@ export default function WhyUs() {
 }
 
 const Skeleton = () => (
-  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800" />
+  <div className="flex flex-1 w-full h-full min-h-24 rounded-xl bg-linear-to-br from-neutral-200 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800" />
 );
 
 const items = [
   {
-    title: "QA‑Focused Talent Only",
+    title: "QA Focused Talent Only",
     description:
       "We specialize exclusively in software testers — manual, automation, SDET, and QA leads.",
     header: <Skeleton />,
@@ -65,7 +66,7 @@ const items = [
     icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
   },
   {
-    title: "Fast, Signal‑Driven Hiring",
+    title: "Fast, Signal-Driven Hiring",
     description:
       "No CV spam. We send a short, high-quality shortlist that actually fits your stack.",
     header: <Skeleton />,
