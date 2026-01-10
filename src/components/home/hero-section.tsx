@@ -10,7 +10,6 @@ const logos = [
   { name: "TestRail", src: "/logos/testrail.svg" },
   { name: "POSTMAN", src: "/logos/postman.svg" },
   { name: "Appium", src: "/logos/appium.svg" },
-  { name: "BrowserStack", src: "/logos/browserstack.svg" },
 ];
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -22,7 +21,7 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative px-5 md:px-6 lg:px-8 pt-24 xl:pt-34 pb-16 overflow-hidden"
+      className="relative px-5 md:px-6 lg:px-8 pt-24 xl:pt-34 overflow-hidden"
     >
       <GridPattern
         width={40}
@@ -90,26 +89,26 @@ export default function HeroSection() {
           </Button>
         </div>
 
-        <Marquee className="mt-20 [--duration:40s] mask-fade-sides">
+        <Marquee className="mt-10 md:mt-20 [--duration:40s] mask-fade-sides cursor-pointer dark:opacity-55" pauseOnHover={true}>
           {logos.map((logo) =>
             logo.name === "POSTMAN" ? (
               <div
                 key={logo.name}
-                className="mx-6 flex items-center justify-center opacity-70 transition-opacity hover:opacity-100 logo-tint"
+                className="flex items-center justify-center transition-opacity text-xs md:text-sm logo-tint hover:opacity-100"
               >
                 <span className={ibmPlexMono.className}>{logo.name}</span>
               </div>
             ) : (
               <div
                 key={logo.name}
-                className="mx-2.5 flex items-center justify-center transition-opacity"
+                className="flex items-center justify-center transition-opacity hover:opacity-100"
               >
                 <Image
                   src={logo.src}
                   alt={logo.name}
-                  width={120}
-                  height={40}
-                  className="h-4 sm:h-8 w-auto dark:invert logo-tint"
+                  width={100}
+                  height={35}
+                  className="h-4 sm:h-8 w-auto dark:invert logo-tint scale-75"
                   priority={false}
                 />
               </div>
@@ -117,7 +116,7 @@ export default function HeroSection() {
           )}
         </Marquee>
 
-        <p className="text-sm text-foreground/70 opacity-70">Recruiting QA talent experienced with modern testing tools</p>
+        <p className="text-sm text-foreground/70 opacity-70 -mt-2">Recruiting QA talent experienced with modern testing tools</p>
       </div>
     </section>
   );

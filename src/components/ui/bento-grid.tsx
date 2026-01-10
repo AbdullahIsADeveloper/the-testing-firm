@@ -10,8 +10,18 @@ export const BentoGrid = ({
   return (
     <div
       className={cn(
-        "mx-auto grid max-w-7xl grid-cols-1 gap-4 md:auto-rows-[18rem] md:grid-cols-3",
-        className,
+        `
+    mx-auto
+    grid
+    w-full
+    max-w-7xl
+    gap-3
+    grid-cols-1
+    md:grid-cols-2
+    xl:grid-cols-4
+    md:auto-rows-[425px]
+    `,
+        className
       )}
     >
       {children}
@@ -22,33 +32,63 @@ export const BentoGrid = ({
 export const BentoGridItem = ({
   className,
   title,
-  description,
-  header,
   icon,
+  content,
 }: {
   className?: string;
   title?: string | React.ReactNode;
-  description?: string | React.ReactNode;
-  header?: React.ReactNode;
   icon?: React.ReactNode;
+  content?: React.ReactNode;
 }) => {
   return (
-    <div
-      className={cn(
-        "group/bento shadow-input row-span-1 flex flex-col justify-between space-y-4 rounded-xl border border-neutral-200 bg-white p-4 transition duration-200 dark:border-white/20 dark:bg-black dark:shadow-none hover:border-primary dark:hover:border-primary cursor-pointer",
-        className,
-      )}
-    >
-      {header}
-      <div className="transition duration-200">
-        {icon}
-        <div className="mt-2 mb-2 font-sans font-bold text-neutral-600 dark:text-neutral-200">
+      <div
+        className={cn(
+          `
+        group/bento
+        shadow-input
+        flex flex-col
+        items-start
+        rounded-xl
+        border border-neutral-200
+        bg-white
+        p-6
+        transition
+        duration-200
+        dark:border-white/10
+        dark:bg-black
+        hover:border-black
+        dark:hover:border-white/20
+        cursor-pointer
+        `,
+          className
+        )}
+      >
+        <div className="flex items-center gap-2 mb-2 text-semibold font-medium text-neutral-600 dark:text-neutral-200">
+          {icon}
           {title}
         </div>
-        <div className="font-sans text-xs font-normal text-neutral-600 dark:text-neutral-300">
-          {description}
-        </div>
+
+        {content}
       </div>
-    </div>
+  );
+};
+
+export const BentoContent = ({
+  description,
+  children,
+}: {
+  description: string;
+  children?: React.ReactNode;
+}) => {
+  return (
+    <>
+      {/* Mobile: description only */}
+      <p className="block md:hidden text-sm font-normal text-neutral-500 dark:text-neutral-400">
+        {description}
+      </p>
+
+      {/* md+: full content */}
+      <div className="hidden md:block">{children}</div>
+    </>
   );
 };
